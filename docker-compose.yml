@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  stable-node:
+    build: .
+    container_name: stable-testnet-node
+    restart: unless-stopped
+    environment:
+      # REQUIRED: Set your node name
+      - MONIKER=my-stable-node
+      # OPTIONAL: Use snapshot for fast sync (true/false)
+      - USE_SNAPSHOT=true
+    ports:
+      # P2P port
+      - "26656:26656"
+      # RPC port
+      - "26657:26657"
+      # JSON-RPC port
+      - "8545:8545"
+      # JSON-RPC WebSocket port
+      - "8546:8546"
+    volumes:
+      # Persist blockchain data
+      - stable-data:/root/.stabled/data
+      # Persist configuration (optional, for easy access)
+      - stable-config:/root/.stabled/config
+    # Resource limits (adjust based on your system)
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 8G
+        reservations:
+          cpus: '2.0'
+          memory: 4G
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:26657/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+volumes:
+  stable-data:
+    driver: local
+  stable-config:
+    driver: local
