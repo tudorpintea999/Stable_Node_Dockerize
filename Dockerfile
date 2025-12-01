@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Download and install Stable binary
-RUN wget https://stable-testnet-data.s3.us-east-1.amazonaws.com/stabled-1.1.1-linux-amd64-testnet.tar.gz -O /tmp/stable.tar.gz \
+RUN wget https://stable-testnet-data.s3.us-east-1.amazonaws.com/stabled-1.1.2-linux-amd64-testnet.tar.gz -O /tmp/stable.tar.gz \
     && tar -xzf /tmp/stable.tar.gz -C /tmp \
     && mv /tmp/stabled /usr/local/bin/stabled \
     && chmod +x /usr/local/bin/stabled \
